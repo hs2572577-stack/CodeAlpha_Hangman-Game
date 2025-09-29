@@ -1,0 +1,49 @@
+import random  # using random to pick a word [web:10]
+
+# small predefined list of 5 words (no files/APIs) [web:10]
+WORDS = ["python", "programming", "computer", "keyboard", "developer"]  # strings list [web:10]
+
+def hangmangame():
+    secret = random.choice(5)  # choose secret word [web:10]
+    guessed = []  # track guessed letters with a list [web:11]
+    wrong = 0  # incorrect guesses counter [web:11]
+    max_wrong = 6  # limit incorrect guesses to 6 [web:10]
+
+    print("Welcome to Hangman! 5.")  # basic console I/O [web:11]
+
+    # game loop: run while guesses remain [web:11]
+    while wrong < max_wrong:
+        # build masked display using string join and list comprehension [web:11]
+        display = " ".join([c if c in guessed else "_" for c in secret])  # strings [web:11]
+        print(f"\nWord: {display} | Lives: {max_wrong - wrong}")  # console output [web:11]
+
+        # win check: no underscores means fully guessed [web:11]
+        if "_" not in display:
+            print("Congratulations! You guessed the word!")  # output [web:11]
+            return  # end game [web:11]
+
+        # read a single-letter guess from console [web:11]
+        g = input("Guess a letter: ").lower().strip()  # input processing [web:11]
+
+        # input validation with if-else [web:11]
+        if len(g) != 1 or not g.isalpha():
+            print("Enter a single alphabet letter.")  # feedback [web:11]
+            continue
+        if g in guessed:
+            print("Already guessed. Try another.")  # feedback [web:11]
+            continue
+
+        guessed.append(g)  # update list of guesses [web:11]
+
+        if g in secret:  # correct guess branch [web:11]
+            print(f"Good guess: '{g}'")  # feedback [web:11]
+        else:  # incorrect guess branch [web:11]
+            wrong += 1  # increment wrong counter [web:11]
+            print(f"Wrong: '{g}'")  # feedback [web:11]
+
+    # out of lives: reveal word [web:11]
+    print(f"\nGame Over. The word was '{secret}'.")  # console output [web:11]
+
+if __name__ == "__main__":
+    hangman()  # run the game [web:11]
+
